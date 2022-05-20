@@ -15,6 +15,27 @@ function keyDownHandler(e) {
         leftPressed = true;
     }
 }
+function keyUpHandler(e) {
+    if (e.key == 'Right' || e.key == 'ArrowRight') {
+        rightPressed = false
+    } else if (e.key == 'Left' || e.key == 'ArrowLeft'){
+        leftPressed = false;
+    }
+}
+
+function movePaddle() {
+    if (rightPressed) {
+        paddle.x += 7;
+        if (paddle.x + paddle.width > canvas.width){
+            paddle.x = canvas.width - paddle.width
+        }
+    } else if (leftPressed){
+        paddle.x -= 7;
+        if (paddle.x < 0){
+            paddle.x = 0
+        }
+    }
+}
 
 let speed = 3
 let ball= {
@@ -49,6 +70,7 @@ function play(){
     ctx.clearRect(0,0,canvas.width, canvas.height)
     ball.draw()
     paddle.draw()
+    movePaddle()
 
     ball.x += ball.dx
     ball.y += ball.dy
@@ -60,10 +82,51 @@ function play(){
         ball.dy *= -1
     }
 
+    if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width && ball.y + ball.radius >= canvas.height - paddle.height){
+        ball.dy *= -1
+    }
     requestAnimationFrame(play)
 }
 
 
+let brickRowCount = 3;
+let brickColumCount = 5;
+
+let brickWidth = 70;
+let brickHeight = 20;
+let brickPadding = 20;
+let brickOffSetTop = 30;
+let brickOffSetLeft = 35;
+
+let bricks = []
+
+function generateBricks(){
+    for (let c = 0; c <=brickColumCount; c++){
+        bricks[c] = []
+        for (let r = 0; r <= brickRowCount; r++){
+            bricks[c][r] = {x:0, y:0, status: 1}
+        }
+    }
+        
+}
+
+function drawBricks(){
+    for (let c = 0; c < brickColumCount; c++){
+        for (let r = 0; r <= brickRowCount; r++){
+            if (bricks[c][r].status === 1){
+                let brickX = c * (brickWidth + brickPadding) + brickOffSetLeft;
+                let brickY = r * (brickHeight + brickPadding) + brickOffSetTop
+                bricks[c][r] = brickX
+                bricks[c][r].y = brickY
+                ctx.beginPath()
+                ctx.rect(brickX,brickY, brickWidth, brickHeight)
+                ctx.fillStyle = '#230c33'
+                ctx.fill()
+                ctx.closePath;
+            }
+        }
+    }
+}
 function p() {
     
 }
