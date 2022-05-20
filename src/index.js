@@ -178,7 +178,7 @@ function collisionDetection(){
 
 let gameLevelUp = true
 function levelUp() {
-    if (score % 15 == 0 && score != 0){
+    if (score % 18 == 0 && score != 0){
         if (ball.y > canvas.height / 2){
             generateBricks()
         }
@@ -192,7 +192,7 @@ function levelUp() {
                 gameLevelUp = false
             }
         }
-        if (score % 15 != 0){
+        if (score % 18 != 0){
             gameLevelUp = true
         }
     }
