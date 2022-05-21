@@ -1,5 +1,7 @@
 const scoreDisplay = document.querySelector('.high-score')
 const canvas = document.getElementById('canvas');
+const reset = document.querySelector('.reset')
+
 
 canvas.height = 500;
 canvas.width = 600;
@@ -16,6 +18,13 @@ if (isNaN(highScore)){
 }
 
 scoreDisplay.innerHTML = `High Score: ${highScore}`
+
+reset.addEventListener('click', ()=> {
+    localStorage.setItem('highScore', '0')
+    score = 0
+    scoreDisplay.innerHTML = `High Score: 0`
+})
+
 
 function keyDownHandler(e) {
     if (e.key == 'Right' || e.key == 'ArrowRight') {
